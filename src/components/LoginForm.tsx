@@ -1,4 +1,5 @@
 import { useState } from "react";
+import InputField from "./inputField";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -6,11 +7,16 @@ function LoginForm() {
   const [emailError, setEmailError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     if (!email.includes("@")) {
       setEmailError("Enter a valid email");
+      return;
+    }
+
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters");
       return;
     }
 
@@ -20,23 +26,23 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit} noValidate>
       <div>
-        <label>Email</label>
-        <input
+        <InputField
+          label="Email"
           type="email"
           value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
+          onChange={(value) => {
+            setEmail(value);
             setEmailError("");
           }}
         />
         {emailError && <p>{emailError}</p>}
       </div>
       <div>
-        <label>Password</label>
-        <input
+        <InputField
+          label="Password"
           type={showPassword ? "text" : "password"}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={setPassword}
         />
         <button type="button" onClick={() => setShowPassword(!showPassword)}>
           {showPassword ? "Hide" : "Show"}
