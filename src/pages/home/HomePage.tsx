@@ -1,3 +1,4 @@
+import Counter from "../../components/Counter";
 import FeatureCard from "../../components/FeatureCard";
 import Footer from "../../components/Footer";
 import Hero from "../../components/Hero";
@@ -24,6 +25,7 @@ function HomePage() {
         title="Interview Prep Platform"
         subtitle="Master DSA, System Design and Mock Interviews"
       ></Hero>
+      <Counter />
       {features.map((feature, idx) => (
         <FeatureCard
           key={idx}
