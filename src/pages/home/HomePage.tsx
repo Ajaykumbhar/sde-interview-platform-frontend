@@ -1,10 +1,8 @@
 import FeatureCard from "../../components/FeatureCard";
 import Footer from "../../components/Footer";
 import Hero from "../../components/Hero";
-interface Feature {
-  title: string;
-  description: string;
-}
+import type { Feature } from "../../types/feature";
+
 const features: Feature[] = [
   {
     title: "DSA Practice",
