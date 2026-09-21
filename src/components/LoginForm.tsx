@@ -1,5 +1,5 @@
 import { useState } from "react";
-import InputField from "./inputField";
+import InputField from "./InputField";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
