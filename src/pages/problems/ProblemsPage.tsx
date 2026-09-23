@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 function ProblemsPage() {
   const [loading, setLoading] = useState(true);
-
+  const [search, setSearch] = useState("");
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -14,15 +14,26 @@ function ProblemsPage() {
   if (loading) {
     return <h2>Loading...</h2>;
   }
+
+  const filteredProblems = problems.filter((problems) =>
+    problems.title.toLowerCase().includes(search.toLowerCase()),
+  );
+
   return (
     <div>
       <h1>DSA Problems</h1>
-      {problems.length === 0 ? (
-        <p>No Problems Found</p>
+      <input
+        type="text"
+        placeholder="Search Problem..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      {filteredProblems.length === 0 ? (
+        <p>No Matching Problems Found</p>
       ) : (
         <div>
           <p> Practice coding problems here.</p>
-          {problems.map((problem) => (
+          {filteredProblems.map((problem) => (
             <div key={problem.id}>
               <ProblemCard
                 title={problem.title}
