@@ -1,5 +1,6 @@
 import { useState } from "react";
 import InputField from "./InputField";
+import Button from "./Button";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -44,11 +45,13 @@ function LoginForm() {
           value={password}
           onChange={setPassword}
         />
-        <button type="button" onClick={() => setShowPassword(!showPassword)}>
-          {showPassword ? "Hide" : "Show"}
-        </button>
+        <Button
+          text={showPassword ? "Hide" : "Show"}
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+        />
       </div>
-      <button type="submit">Login</button>
+      <Button text="Login" type="submit" />
     </form>
   );
 }
