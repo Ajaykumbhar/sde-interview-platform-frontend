@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import ProblemCard from "../../components/ProblemCard";
 import type { Problem } from "../../types/problem";
-import { getProblems } from "../../api/problemApi";
+import { getProblems } from "../../services/problemApi";
 
 function ProblemsPage() {
   const [problems, setProblems] = useState<Problem[]>([]);
@@ -22,7 +22,7 @@ function ProblemsPage() {
         setLoading(false);
       }
     }
-
+    console.log("Fetching...");
     fetchProblems();
   }, []);
 
