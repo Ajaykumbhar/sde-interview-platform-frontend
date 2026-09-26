@@ -1,38 +1,60 @@
+import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import ProblemCard from "../../components/ProblemCard";
-import { problems } from "../../data/problems";
-import { useEffect, useState } from "react";
+import type { Problem } from "../../types/problem";
+import { getProblems } from "../../api/problemApi";
 
 function ProblemsPage() {
+  const [problems, setProblems] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    async function fetchProblems() {
+      try {
+        const data = await getProblems();
+        setProblems(data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load problems");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProblems();
   }, []);
+
   if (loading) {
     return <h2>Loading...</h2>;
   }
 
-  const filteredProblems = problems.filter((problems) =>
-    problems.title.toLowerCase().includes(search.toLowerCase()),
+  if (error) {
+    return <h2>{error}</h2>;
+  }
+
+  const filteredProblems = problems.filter((problem) =>
+    problem.title.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
     <div>
       <h1>DSA Problems</h1>
+
       <input
         type="text"
         placeholder="Search Problem..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+
+      <p>{filteredProblems.length} Problems Found</p>
+
       {filteredProblems.length === 0 ? (
         <p>No Matching Problems Found</p>
       ) : (
         <div>
-          <p> Practice coding problems here.</p>
           {filteredProblems.map((problem) => (
             <div key={problem.id}>
               <ProblemCard
@@ -43,6 +65,7 @@ function ProblemsPage() {
           ))}
         </div>
       )}
+
       <Button text="Submit" />
     </div>
   );
