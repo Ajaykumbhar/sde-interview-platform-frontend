@@ -3,13 +3,13 @@ import Button from "../../components/Button";
 import ProblemCard from "../../components/ProblemCard";
 import type { Problem } from "../../types/problem";
 import { getProblems } from "../../services/problemApi";
-
+import { useNavigate } from "react-router-dom";
 function ProblemsPage() {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchProblems() {
       try {
@@ -40,8 +40,12 @@ function ProblemsPage() {
 
   return (
     <div>
-      <h1>DSA Problems</h1>
-
+      <div>
+        <h1>DSA Problems</h1>
+        <Button onClick={() => navigate("/createProblem")}>
+          + Create Problem
+        </Button>
+      </div>
       <input
         type="text"
         placeholder="Search Problem..."
@@ -66,7 +70,7 @@ function ProblemsPage() {
         </div>
       )}
 
-      <Button text="Submit" />
+      <Button>Subtmit</Button>
     </div>
   );
 }

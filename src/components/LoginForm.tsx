@@ -45,13 +45,11 @@ function LoginForm() {
           value={password}
           onChange={setPassword}
         />
-        <Button
-          text={showPassword ? "Hide" : "Show"}
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
-        />
+        <Button type="button" onClick={() => setShowPassword(!showPassword)}>
+          {showPassword ? "Hide" : "Show"}
+        </Button>
       </div>
-      <Button text="Login" type="submit" />
+      <Button type="submit">Login</Button>
     </form>
   );
 }

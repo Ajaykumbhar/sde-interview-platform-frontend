@@ -1,5 +1,5 @@
 export interface Problem {
-  id: number;
+  id?: number;
   title: string;
   difficulty: string;
 }
