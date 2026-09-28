@@ -15,3 +15,18 @@ export const createProblem = async (problem: Problem): Promise<Problem> => {
 
   return response.data;
 };
+
+export const updateProblem = async (
+  id: number,
+  problem: Problem,
+): Promise<Problem> => {
+  const url = `${API_BASE_URL}/problems/${id}`;
+  const reponse = await axios.put<Problem>(url, problem);
+  return reponse.data;
+};
+
+export const getProblemById = async (id: number): Promise<Problem> => {
+  const url = `${API_BASE_URL}/problems/${id}`;
+  const response = await axios.get<Problem>(url);
+  return response.data;
+};

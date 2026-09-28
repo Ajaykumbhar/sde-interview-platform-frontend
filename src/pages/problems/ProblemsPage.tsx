@@ -60,7 +60,11 @@ function ProblemsPage() {
       ) : (
         <div>
           {filteredProblems.map((problem) => (
-            <div key={problem.id}>
+            <div
+              key={problem.id}
+              onClick={() => navigate(`/editProblem/${problem.id}`)}
+              style={{ cursor: "pointer" }}
+            >
               <ProblemCard
                 title={problem.title}
                 difficulty={problem.difficulty}
