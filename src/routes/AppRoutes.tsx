@@ -6,6 +6,7 @@ import MainLayout from "../layouts/MainLayout";
 import ProblemsPage from "../pages/problems/ProblemsPage";
 import CreateProblemsPage from "../pages/problems/CreateProblemsPage";
 import EditProblemsPage from "../pages/problems/EditProblemsPage";
+import ProblemDetailsPage from "../pages/problems/ProblemDetailsPage";
 
 function AppRoutes() {
   return (
@@ -50,6 +51,14 @@ function AppRoutes() {
           element={
             <MainLayout>
               <EditProblemsPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/problemDetails/:id"
+          element={
+            <MainLayout>
+              <ProblemDetailsPage />
             </MainLayout>
           }
         />

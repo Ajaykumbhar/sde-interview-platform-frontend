@@ -1,6 +1,6 @@
 import { useState, type SyntheticEvent } from "react";
-import Button from "../../components/Button";
 import { createProblem } from "../../services/problemApi";
+import ProblemForm from "../../components/ProblemForm";
 
 function CreateProblemsPage() {
   const [title, setTitle] = useState("");
@@ -43,40 +43,20 @@ function CreateProblemsPage() {
       <h1>Create Problem</h1>
 
       {/* Add your form or content for creating problems here */}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-              setError("");
-            }}
-            disabled={loading}
-            placeholder="Enter problem title"
-          />
-        </div>
-        <div>
-          <label>Difficulty:</label>
-          <select
-            value={difficulty}
-            onChange={(e) => {
-              setDifficulty(e.target.value);
-              setError("");
-            }}
-            disabled={loading}
-          >
-            <option value="">Select Difficulty</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
-          </select>
-        </div>
-        <Button type="submit" disabled={loading}>
-          {loading ? "Creating..." : "Create Problem"}
-        </Button>
-      </form>
+      <ProblemForm
+        title={title}
+        difficulty={difficulty}
+        onTitleChange={(e) => {
+          setTitle(e.target.value);
+          setError("");
+        }}
+        onDifficultyChange={(e) => {
+          setDifficulty(e.target.value);
+          setError("");
+        }}
+        onSubmit={handleSubmit}
+        submitButtonText={loading ? "Creating..." : "Create Problem"}
+      />
       {success && <p>{success}</p>}
       {error && <p>{error}</p>}
     </div>

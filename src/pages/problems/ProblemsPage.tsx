@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import ProblemCard from "../../components/ProblemCard";
 import type { Problem } from "../../types/problem";
-import { getProblems } from "../../services/problemApi";
+import { deleteProblem, getProblems } from "../../services/problemApi";
 import { useNavigate } from "react-router-dom";
 function ProblemsPage() {
   const [problems, setProblems] = useState<Problem[]>([]);
@@ -38,6 +38,19 @@ function ProblemsPage() {
     problem.title.toLowerCase().includes(search.toLowerCase()),
   );
 
+  const handleDelete = async (id?: number) => {
+    if (id === undefined) {
+      return;
+    }
+    try {
+      await deleteProblem(id);
+      setProblems(problems.filter((problem) => problem.id !== id));
+    } catch (err) {
+      console.error(err);
+      setError("Failed to delete problem");
+    }
+  };
+
   return (
     <div>
       <div>
@@ -59,18 +72,26 @@ function ProblemsPage() {
         <p>No Matching Problems Found</p>
       ) : (
         <div>
-          {filteredProblems.map((problem) => (
-            <div
-              key={problem.id}
-              onClick={() => navigate(`/editProblem/${problem.id}`)}
-              style={{ cursor: "pointer" }}
-            >
-              <ProblemCard
-                title={problem.title}
-                difficulty={problem.difficulty}
-              />
-            </div>
-          ))}
+          {filteredProblems.map((problem) =>
+            problem.id === undefined ? null : (
+              <div
+                key={problem.id}
+                onClick={() => navigate(`/problemDetails/${problem.id}`)}
+                style={{ cursor: "pointer" }}
+              >
+                <ProblemCard
+                  id={problem.id}
+                  title={problem.title}
+                  difficulty={problem.difficulty}
+                  onEdit={() => navigate(`/editProblem/${problem.id}`)}
+                  onDelete={() => {
+                    // Implement delete functionality
+                    handleDelete(problem.id);
+                  }}
+                />
+              </div>
+            ),
+          )}
         </div>
       )}
 

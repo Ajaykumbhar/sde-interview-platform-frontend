@@ -1,0 +1,22 @@
+.problem-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.problem-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.problem-difficulty {
+  margin-bottom: 15px;
+}
+
+.problem-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}

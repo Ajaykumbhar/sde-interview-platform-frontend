@@ -1,7 +1,7 @@
 import { useEffect, useState, type SyntheticEvent } from "react";
-import Button from "../../components/Button";
 import { getProblemById, updateProblem } from "../../services/problemApi";
 import { useParams } from "react-router-dom";
+import ProblemForm from "../../components/ProblemForm";
 
 function EditProblemsPage() {
   const { id } = useParams();
@@ -58,36 +58,21 @@ function EditProblemsPage() {
   return (
     <div>
       <h1>Edit Problem</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            disabled={loading}
-            placeholder="Enter problem title"
-          />
-        </div>
-        <div>
-          <label>Difficulty:</label>
-          <select
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-            disabled={loading}
-          >
-            <option value="">Select Difficulty</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
-          </select>
-        </div>
-        <div>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Updating..." : "Update Problem"}
-          </Button>
-        </div>
-      </form>
+      <ProblemForm
+        title={title}
+        difficulty={difficulty}
+        onTitleChange={(e) => {
+          setTitle(e.target.value);
+          setError("");
+        }}
+        onDifficultyChange={(e) => {
+          setDifficulty(e.target.value);
+          setError("");
+        }}
+        onSubmit={handleSubmit}
+        submitButtonText={loading ? "Updating..." : "Update Problem"}
+        disabled={loading}
+      />
       {success && <p>{success}</p>}
       {error && <p>{error}</p>}
       {/* Add your form or content for editing problems here */}
