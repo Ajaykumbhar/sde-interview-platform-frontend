@@ -1,5 +1,5 @@
 import Button from "./Button";
-import "../styles/card.css";
+import "./ProblemCard.css";
 type ProblemsCardProps = {
   id: number;
   title: string;
@@ -16,25 +16,33 @@ function ProblemCard({
 }: ProblemsCardProps) {
   return (
     <div className="problem-card">
-      <h3 className="problem-title">{title}</h3>
-      <p className="problem-difficulty">{difficulty}</p>
-      <Button
-        className="problem-actions"
-        onClick={(e) => {
-          e.stopPropagation();
-          onEdit();
-        }}
-      >
-        Edit
-      </Button>
-      <Button
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete();
-        }}
-      >
-        Delete
-      </Button>
+      <div className="problem-header">
+        <div className="problem-info">
+          <h3 className="problem-title">{title}</h3>
+
+          <p className={`difficulty ${difficulty.toLowerCase()}`}>
+            {difficulty}
+          </p>
+        </div>
+        <div className="problem-actions">
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit();
+            }}
+          >
+            Edit
+          </Button>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+          >
+            Delete
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

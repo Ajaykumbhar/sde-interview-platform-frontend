@@ -9,6 +9,7 @@ function ProblemsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+  const [difficultyFilter, setDifficultyFilter] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchProblems() {
@@ -34,9 +35,14 @@ function ProblemsPage() {
     return <h2>{error}</h2>;
   }
 
-  const filteredProblems = problems.filter((problem) =>
-    problem.title.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filteredProblems = problems.filter((problem) => {
+    const matchesSearch = problem.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+    const matchesDifficulty =
+      difficultyFilter === "" || problem.difficulty === difficultyFilter;
+    return matchesSearch && matchesDifficulty;
+  });
 
   const handleDelete = async (id?: number) => {
     if (id === undefined) {
@@ -65,7 +71,12 @@ function ProblemsPage() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-
+      <div>
+        <button onClick={() => setDifficultyFilter("")}>All</button>
+        <button onClick={() => setDifficultyFilter("Easy")}>Easy</button>
+        <button onClick={() => setDifficultyFilter("Medium")}>Medium</button>
+        <button onClick={() => setDifficultyFilter("Hard")}>Hard</button>
+      </div>
       <p>{filteredProblems.length} Problems Found</p>
 
       {filteredProblems.length === 0 ? (
@@ -94,8 +105,6 @@ function ProblemsPage() {
           )}
         </div>
       )}
-
-      <Button>Subtmit</Button>
     </div>
   );
 }
