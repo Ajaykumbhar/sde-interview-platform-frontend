@@ -1,7 +1,7 @@
 import { useState, type SyntheticEvent } from "react";
 import { createProblem } from "../../services/problemApi";
 import ProblemForm from "../../components/ProblemForm";
-
+import { getErrorMessage } from "../../utils/errorUtils";
 function CreateProblemsPage() {
   const [title, setTitle] = useState("");
   const [difficulty, setDifficulty] = useState("");
@@ -31,9 +31,8 @@ function CreateProblemsPage() {
       setSuccess("Problem created successfully!");
       setTitle("");
       setDifficulty("");
-    } catch (err) {
-      console.error(err);
-      setError("Error creating problem");
+    } catch (err: unknown) {
+      setError(String(getErrorMessage(err)));
     } finally {
       setLoading(false);
     }

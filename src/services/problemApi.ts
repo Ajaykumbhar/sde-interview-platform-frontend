@@ -3,11 +3,16 @@ import type { Problem } from "../types/problem";
 
 const API_BASE_URL = "http://localhost:8080";
 
-export const getProblems = async (): Promise<Problem[]> => {
-  const url = `${API_BASE_URL}/problems`;
+/** GET API calls **/
+
+export const getProblems = async (difficulty?: string): Promise<Problem[]> => {
+  const url = difficulty
+    ? `${API_BASE_URL}/problems?difficulty=${difficulty}`
+    : `${API_BASE_URL}/problems`;
   const response = await axios.get<Problem[]>(url);
   return response.data;
 };
+
 export const createProblem = async (problem: Problem): Promise<Problem> => {
   const url = `${API_BASE_URL}/problems`;
   const response = await axios.post<Problem>(url, problem);

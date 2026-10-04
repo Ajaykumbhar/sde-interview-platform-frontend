@@ -4,21 +4,21 @@ import ProblemCard from "../../components/ProblemCard";
 import type { Problem } from "../../types/problem";
 import { deleteProblem, getProblems } from "../../services/problemApi";
 import { useNavigate } from "react-router-dom";
+import { getErrorMessage } from "../../utils/errorUtils";
 function ProblemsPage() {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
-  const [difficultyFilter, setDifficultyFilter] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchProblems() {
       try {
-        const data = await getProblems();
+        const data = await getProblems("");
         setProblems(data);
       } catch (err) {
         console.error(err);
-        setError("Failed to load problems");
+        setError(String(getErrorMessage(err)));
       } finally {
         setLoading(false);
       }
@@ -36,12 +36,7 @@ function ProblemsPage() {
   }
 
   const filteredProblems = problems.filter((problem) => {
-    const matchesSearch = problem.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchesDifficulty =
-      difficultyFilter === "" || problem.difficulty === difficultyFilter;
-    return matchesSearch && matchesDifficulty;
+    return problem.title.toLowerCase().includes(search.toLowerCase());
   });
 
   const handleDelete = async (id?: number) => {
@@ -53,7 +48,25 @@ function ProblemsPage() {
       setProblems(problems.filter((problem) => problem.id !== id));
     } catch (err) {
       console.error(err);
-      setError("Failed to delete problem");
+      setError(String(getErrorMessage(err)));
+    }
+  };
+
+  const handleDifficultyFilter = async (difficulty: string) => {
+    try {
+      setLoading(true);
+      if (difficulty === "") {
+        const data = await getProblems("");
+        setProblems(data);
+      } else {
+        const data = await getProblems(difficulty);
+        setProblems(data);
+      }
+    } catch (err) {
+      console.error(err);
+      setError(String(getErrorMessage(err)));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,10 +85,10 @@ function ProblemsPage() {
         onChange={(e) => setSearch(e.target.value)}
       />
       <div>
-        <button onClick={() => setDifficultyFilter("")}>All</button>
-        <button onClick={() => setDifficultyFilter("Easy")}>Easy</button>
-        <button onClick={() => setDifficultyFilter("Medium")}>Medium</button>
-        <button onClick={() => setDifficultyFilter("Hard")}>Hard</button>
+        <button onClick={() => handleDifficultyFilter("")}>All</button>
+        <button onClick={() => handleDifficultyFilter("Easy")}>Easy</button>
+        <button onClick={() => handleDifficultyFilter("Medium")}>Medium</button>
+        <button onClick={() => handleDifficultyFilter("Hard")}>Hard</button>
       </div>
       <p>{filteredProblems.length} Problems Found</p>
 

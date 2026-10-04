@@ -2,6 +2,7 @@ import { useEffect, useState, type SyntheticEvent } from "react";
 import { getProblemById, updateProblem } from "../../services/problemApi";
 import { useParams } from "react-router-dom";
 import ProblemForm from "../../components/ProblemForm";
+import { getErrorMessage } from "../../utils/errorUtils";
 
 function EditProblemsPage() {
   const { id } = useParams();
@@ -19,16 +20,19 @@ function EditProblemsPage() {
         const problem = await getProblemById(Number(id));
         setTitle(problem.title);
         setDifficulty(problem.difficulty);
-      } catch (err) {
+      } catch (err: unknown) {
         console.error(err);
-        setError("Failed to load problem");
+        setError(getErrorMessage(err));
       }
     }
 
     loadProblem();
   }, [id]);
+
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
+    setError("");
+    setSuccess("");
 
     if (!title.trim()) {
       setError("Title is required");
@@ -47,9 +51,8 @@ function EditProblemsPage() {
       await updateProblem(Number(id), { title, difficulty });
       setSuccess("Problem updated successfully");
       setError("");
-    } catch (err) {
-      console.log(err);
-      setError("Failed to update problem");
+    } catch (err: unknown) {
+      setError(String(getErrorMessage(err)));
       setSuccess("");
     } finally {
       setLoading(false);

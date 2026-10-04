@@ -3,6 +3,7 @@ import { deleteProblem, getProblemById } from "../../services/problemApi";
 import { useEffect, useState } from "react";
 import type { Problem } from "../../types/problem";
 import Button from "../../components/Button";
+import { getErrorMessage } from "../../utils/errorUtils";
 
 function ProblemDetailsPage() {
   const { id } = useParams();
@@ -19,7 +20,7 @@ function ProblemDetailsPage() {
         setProblem(data);
       } catch (err) {
         console.error(err);
-        setError("Failed to load problem");
+        setError(String(getErrorMessage(err)));
       } finally {
         setLoading(false);
       }
@@ -36,7 +37,7 @@ function ProblemDetailsPage() {
       navigate("/problems");
     } catch (err) {
       console.error(err);
-      setError("Failed to delete problem");
+      setError(String(getErrorMessage(err)));
     }
   };
 
