@@ -52,7 +52,7 @@ function EditProblemsPage() {
       setSuccess("Problem updated successfully");
       setError("");
     } catch (err: unknown) {
-      setError(String(getErrorMessage(err)));
+      setError(getErrorMessage(err));
       setSuccess("");
     } finally {
       setLoading(false);

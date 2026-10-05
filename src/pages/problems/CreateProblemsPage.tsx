@@ -32,7 +32,7 @@ function CreateProblemsPage() {
       setTitle("");
       setDifficulty("");
     } catch (err: unknown) {
-      setError(String(getErrorMessage(err)));
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }

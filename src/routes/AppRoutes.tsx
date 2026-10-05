@@ -7,6 +7,7 @@ import ProblemsPage from "../pages/problems/ProblemsPage";
 import CreateProblemsPage from "../pages/problems/CreateProblemsPage";
 import EditProblemsPage from "../pages/problems/EditProblemsPage";
 import ProblemDetailsPage from "../pages/problems/ProblemDetailsPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 function AppRoutes() {
   return (
@@ -33,33 +34,41 @@ function AppRoutes() {
         <Route
           path="/problems"
           element={
-            <MainLayout>
-              <ProblemsPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <ProblemsPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/createProblem"
           element={
-            <MainLayout>
-              <CreateProblemsPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <CreateProblemsPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/editProblem/:id"
           element={
-            <MainLayout>
-              <EditProblemsPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <EditProblemsPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/problemDetails/:id"
           element={
-            <MainLayout>
-              <ProblemDetailsPage />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <ProblemDetailsPage />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
       </Routes>

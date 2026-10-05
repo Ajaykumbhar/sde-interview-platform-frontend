@@ -20,7 +20,7 @@ function ProblemDetailsPage() {
         setProblem(data);
       } catch (err) {
         console.error(err);
-        setError(String(getErrorMessage(err)));
+        setError(getErrorMessage(err));
       } finally {
         setLoading(false);
       }
@@ -37,7 +37,7 @@ function ProblemDetailsPage() {
       navigate("/problems");
     } catch (err) {
       console.error(err);
-      setError(String(getErrorMessage(err)));
+      setError(getErrorMessage(err));
     }
   };
 

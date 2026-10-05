@@ -18,7 +18,7 @@ function ProblemsPage() {
         setProblems(data);
       } catch (err) {
         console.error(err);
-        setError(String(getErrorMessage(err)));
+        setError(getErrorMessage(err));
       } finally {
         setLoading(false);
       }
@@ -48,7 +48,7 @@ function ProblemsPage() {
       setProblems(problems.filter((problem) => problem.id !== id));
     } catch (err) {
       console.error(err);
-      setError(String(getErrorMessage(err)));
+      setError(getErrorMessage(err));
     }
   };
 
@@ -64,7 +64,7 @@ function ProblemsPage() {
       }
     } catch (err) {
       console.error(err);
-      setError(String(getErrorMessage(err)));
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
