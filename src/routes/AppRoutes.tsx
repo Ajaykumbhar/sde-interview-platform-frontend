@@ -8,6 +8,7 @@ import CreateProblemsPage from "../pages/problems/CreateProblemsPage";
 import EditProblemsPage from "../pages/problems/EditProblemsPage";
 import ProblemDetailsPage from "../pages/problems/ProblemDetailsPage";
 import ProtectedRoute from "./ProtectedRoute";
+import RegisterPage from "../pages/auth/RegisterPage";
 
 function AppRoutes() {
   return (
@@ -27,6 +28,14 @@ function AppRoutes() {
           element={
             <MainLayout>
               <LoginPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <MainLayout>
+              <RegisterPage />
             </MainLayout>
           }
         />

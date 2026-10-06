@@ -6,7 +6,7 @@ interface Props {
 
 function ProtectedRoute({ children }: Props) {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-
+  console.log("isAuthenticated:", isAuthenticated);
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }

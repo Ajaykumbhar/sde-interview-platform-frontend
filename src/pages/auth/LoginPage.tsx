@@ -1,10 +1,10 @@
-import LoginFrom from "../../components/LoginForm";
+import LoginForm from "../../components/LoginForm";
 
 function LoginPage() {
   return (
     <>
       <h1>Login Page</h1>
-      <LoginFrom />
+      <LoginForm />
     </>
   );
 }
