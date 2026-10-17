@@ -1,21 +1,15 @@
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 import type { Problem } from "../types/problem";
 
-const API_BASE_URL = "http://localhost:8080";
-
-/** GET API calls **/
-
 export const getProblems = async (difficulty?: string): Promise<Problem[]> => {
-  const url = difficulty
-    ? `${API_BASE_URL}/problems?difficulty=${difficulty}`
-    : `${API_BASE_URL}/problems`;
-  const response = await axios.get<Problem[]>(url);
+  const response = await axiosInstance.get<Problem[]>("/api/problems", {
+    params: difficulty ? { difficulty } : {},
+  });
   return response.data;
 };
 
 export const createProblem = async (problem: Problem): Promise<Problem> => {
-  const url = `${API_BASE_URL}/problems`;
-  const response = await axios.post<Problem>(url, problem);
+  const response = await axiosInstance.post<Problem>("/api/problems", problem);
   return response.data;
 };
 
@@ -23,18 +17,18 @@ export const updateProblem = async (
   id: number,
   problem: Problem,
 ): Promise<Problem> => {
-  const url = `${API_BASE_URL}/problems/${id}`;
-  const reponse = await axios.put<Problem>(url, problem);
-  return reponse.data;
+  const response = await axiosInstance.put<Problem>(
+    `/api/problems/${id}`,
+    problem,
+  );
+  return response.data;
 };
 
 export const getProblemById = async (id: number): Promise<Problem> => {
-  const url = `${API_BASE_URL}/problems/${id}`;
-  const response = await axios.get<Problem>(url);
+  const response = await axiosInstance.get<Problem>(`/api/problems/${id}`);
   return response.data;
 };
 
 export const deleteProblem = async (id: number): Promise<void> => {
-  const url = `${API_BASE_URL}/problems/${id}`;
-  await axios.delete(url);
+  await axiosInstance.delete(`/api/problems/${id}`);
 };

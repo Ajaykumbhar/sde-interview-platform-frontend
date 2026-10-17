@@ -10,6 +10,7 @@ export interface RegisterData {
 }
 
 export interface ApiResponse {
+  token: string;
   status: string;
   message: string;
 }

@@ -12,6 +12,7 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setError("");
@@ -33,7 +34,8 @@ function LoginForm() {
         userEmail: email,
         userPassword: password,
       });
-      console.log("Login successful:", response.data);
+      const token = response.data.token;
+      localStorage.setItem("token", token);
       localStorage.setItem("isAuthenticated", "true");
       localStorage.setItem("userEmail", email);
       navigate("/problems");
