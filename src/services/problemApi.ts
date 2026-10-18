@@ -1,10 +1,23 @@
 import axiosInstance from "../api/axiosInstance";
-import type { Problem } from "../types/problem";
+import type { Problem, PageResponse } from "../types/problem";
 
-export const getProblems = async (difficulty?: string): Promise<Problem[]> => {
-  const response = await axiosInstance.get<Problem[]>("/api/problems", {
-    params: difficulty ? { difficulty } : {},
-  });
+export const getProblems = async (
+  difficulty?: string,
+  page = 0,
+  size = 5,
+  sort = "title,asc",
+): Promise<PageResponse<Problem>> => {
+  const response = await axiosInstance.get<PageResponse<Problem>>(
+    "/api/problems",
+    {
+      params: {
+        page,
+        size,
+        sort,
+        ...(difficulty ? { difficulty } : {}),
+      },
+    },
+  );
   return response.data;
 };
 
