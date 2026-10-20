@@ -8,6 +8,7 @@ import { getErrorMessage } from "../../utils/errorUtils";
 function ProblemsPage() {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true); 
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("title,asc");
@@ -21,37 +22,43 @@ function ProblemsPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchProblems() {
+    let cancelled = false;
+    const timer = setTimeout( async() => {
+    
       setLoading(true);
       setError("");
       try {
-        const data = await getProblems(difficulty, page, size, sort);
-        setProblems(data.content);
-        setTotalElements(data.totalElements);
-        setTotalPages(data.totalPages);
+        const data = await getProblems(difficulty, page, size, sort, search);
+       if (!cancelled) {
+          setProblems(data.content);
+          setTotalElements(data.totalElements);
+          setTotalPages(data.totalPages);
+        }
       } catch (err) {
-        console.error(err);
-        setError(getErrorMessage(err));
+        if (!cancelled) {
+          console.error(err);
+          setError(getErrorMessage(err));
+        }
+      
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+          setInitialLoading(false); 
+        }
       }
-    }
-    console.log("Fetching...");
-    fetchProblems();
-  }, [difficulty, page, size, sort, refreshKey]);
+    },search.trim()? 500 : 0);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+    
+  }, [difficulty, page, size, sort, search, refreshKey]);
 
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
+  if (initialLoading) {
+  return <h2>Loading...</h2>;
+}
 
-  if (error) {
-    return <h2>{error}</h2>;
-  }
-
-  const filteredProblems = problems.filter((problem) => {
-    return problem.title.toLowerCase().includes(search.toLowerCase());
-  });
-
+  
   const handleDelete = async (id?: number) => {
     if (id === undefined) {
       return;
@@ -86,7 +93,10 @@ function ProblemsPage() {
         type="text"
         placeholder="Search Problem..."
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {setSearch(e.target.value);
+          setPage(0);
+        }
+        }
       />
       <label htmlFor="sort-order">Sort by title:</label>
       <select
@@ -109,11 +119,14 @@ function ProblemsPage() {
 
       <p>{totalElements} Problems Found</p>
 
-      {filteredProblems.length === 0 ? (
+      {loading && <p>Updating problems...</p>}
+      {error && <p role="alert">{error}</p>}
+
+      {problems.length === 0 ? (
         <p>No Matching Problems Found</p>
       ) : (
         <div>
-          {filteredProblems.map((problem) =>
+          {problems.map((problem) =>
             problem.id === undefined ? null : (
               <div
                 key={problem.id}

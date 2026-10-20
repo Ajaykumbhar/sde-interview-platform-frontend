@@ -6,6 +6,7 @@ export const getProblems = async (
   page = 0,
   size = 5,
   sort = "title,asc",
+  search = "",
 ): Promise<PageResponse<Problem>> => {
   const response = await axiosInstance.get<PageResponse<Problem>>(
     "/api/problems",
@@ -14,6 +15,7 @@ export const getProblems = async (
         page,
         size,
         sort,
+        search: search.trim()||undefined,
         ...(difficulty ? { difficulty } : {}),
       },
     },
